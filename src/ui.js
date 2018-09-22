@@ -46,14 +46,42 @@ class UI {
 
     clearFields(){
         this.titleInput.value = '';
+        this.bodyInput.value = '';
+        this.idInput.value = '';
     }
 
     fillForm({id, title, body}){
         this.titleInput.value = title;
         this.bodyInput.value = body;
         this.idInput.value = id;
+        this.changeFormState('edit');
     }
-     
+
+    removeCancelButton(){
+        if(document.querySelector('.post-cancel')){
+            document.querySelector('.post-cancel').remove();
+        }
+    }
+
+    changeFormState(state){
+        this.removeCancelButton();
+        if(state === 'edit'){
+            this.postsubmit.textContent = 'Update Post';
+            this.postsubmit.className = 'post-submit btn btn-warning btn-block';
+            
+            // Create cancel button
+            const button = document.createElement('button');
+            button.className = 'post-cancel btn btn-light btn-block';
+            button.appendChild(document.createTextNode('Cancel Edit'));
+            const cardForm = document.querySelector('.card-form');
+            const formEnd = document.querySelector('.form-end');
+            cardForm.insertBefore(button, formEnd);
+        } else{
+            this.postsubmit.textContent = 'Post It';
+            this.postsubmit.className = 'post-submit btn btn-primary btn-block';
+            this.clearFields();
+        }
+    }     
 }
 
 export const ui = new UI();
